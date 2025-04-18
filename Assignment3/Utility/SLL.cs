@@ -1,67 +1,64 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Assignment3.Utility;
+using System.Text.Json.Serialization;
 
 namespace Assignment3.Utility
 {
-   
+
     [Serializable]
     public class SLL<T> : ILinkedListADT
     {
-        private Node<T> head;
-        private int size;
+        [JsonInclude]
+        public Node<User> Head;
+        [JsonInclude]
+        public int Count;
 
         public SLL()
         {
-            head = null;
-            size = 0;
+            Head = null;
+            Count = 0;
         }
 
         public bool IsEmpty()
         {
-            return size == 0;
+            return Count == 0;
         }
 
         public void Clear()
         {
-            head = null;
-            size = 0;
+            Head = null;
+            Count = 0;
         }
 
         public void AddLast(User value)
         {
-            Node<T> newNode = new Node<T>(value);
-            if (head == null)
+            Node<User> newNode = new Node<User>(value);
+            if (Head == null)
             {
-                head = newNode;
+                Head = newNode;
             }
             else
             {
-                Node<T> current = head;
+                Node<User> current = Head;
                 while (current.Next != null)
                 {
                     current = current.Next;
                 }
                 current.Next = newNode;
             }
-            size++;
+            Count++;
         }
 
         public void AddFirst(User value)
         {
-            Node<T> newNode = new Node<T>(value);
-            newNode.Next = head;
-            head = newNode;
-            size++;
+            Node<User> newNode = new Node<User>(value);
+            newNode.Next = Head;
+            Head = newNode;
+            Count++;
         }
 
         public void Add(User value, int index)
         {
-            if (index < 0 || index > size)
+            if (index < 0 || index > Count)
             {
                 throw new IndexOutOfRangeException("Index is out of range.");
             }
@@ -72,26 +69,26 @@ namespace Assignment3.Utility
             }
             else
             {
-                Node<T> newNode = new Node<T>(value);
-                Node<T> current = head;
+                Node<User> newNode = new Node<User>(value);
+                Node<User> current = Head;
                 for (int i = 0; i < index - 1; i++)
                 {
                     current = current.Next;
                 }
                 newNode.Next = current.Next;
                 current.Next = newNode;
-                size++;
+                Count++;
             }
         }
 
         public void Replace(User value, int index)
         {
-            if (index < 0 || index >= size)
+            if (index < 0 || index >= Count)
             {
                 throw new IndexOutOfRangeException("Index is out of range.");
             }
 
-            Node<T> current = head;
+            Node<User> current = Head;
             for (int i = 0; i < index; i++)
             {
                 current = current.Next;
@@ -99,47 +96,47 @@ namespace Assignment3.Utility
             current.Data = value;
         }
 
-        public int Count()
+        public int GetCount()
         {
-            return size;
+            return Count;
         }
 
         public void RemoveFirst()
         {
-            if (head == null)
+            if (Head == null)
             {
                 throw new InvalidOperationException("Cannot remove from an empty list.");
             }
-            head = head.Next;
-            size--;
+            Head = Head.Next;
+            Count--;
         }
 
         public void RemoveLast()
         {
-            if (head == null)
+            if (Head == null)
             {
                 throw new InvalidOperationException("Cannot remove from an empty list.");
             }
 
-            if (head.Next == null)
+            if (Head.Next == null)
             {
-                head = null;
+                Head = null;
             }
             else
             {
-                Node<T> current = head;
+                Node<User> current = Head;
                 while (current.Next.Next != null)
                 {
                     current = current.Next;
                 }
                 current.Next = null;
             }
-            size--;
+            Count--;
         }
 
         public void Remove(int index)
         {
-            if (index < 0 || index >= size)
+            if (index < 0 || index >= Count)
             {
                 throw new IndexOutOfRangeException("Index is out of range.");
             }
@@ -150,24 +147,24 @@ namespace Assignment3.Utility
             }
             else
             {
-                Node<T> current = head;
+                Node<User> current = Head;
                 for (int i = 0; i < index - 1; i++)
                 {
                     current = current.Next;
                 }
                 current.Next = current.Next.Next;
-                size--;
+                Count--;
             }
         }
 
         public User GetValue(int index)
         {
-            if (index < 0 || index >= size)
+            if (index < 0 || index >= Count)
             {
                 throw new IndexOutOfRangeException("Index is out of range.");
             }
 
-            Node<T> current = head;
+            Node<User> current = Head;
             for (int i = 0; i < index; i++)
             {
                 current = current.Next;
@@ -178,7 +175,7 @@ namespace Assignment3.Utility
 
         public int IndexOf(User value)
         {
-            Node<T> current = head;
+            Node<User> current = Head;
             int index = 0;
 
             while (current != null)
@@ -197,6 +194,19 @@ namespace Assignment3.Utility
         public bool Contains(User value)
         {
             return IndexOf(value) != -1;
+        }
+
+        public User[] ToArray()
+        {
+            User[] array = new User[Count];
+            Node<User> current = Head;
+            int index = 0;
+            while (current != null)
+            {
+                array[index++] = current.Data;
+                current = current.Next;
+            }
+            return array;
         }
     }
 }

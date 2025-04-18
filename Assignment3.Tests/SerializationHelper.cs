@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment3;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using Assignment3.Utility;
-using System.Runtime.Serialization;
 
 namespace Assignment3.Tests
 {
@@ -17,13 +11,23 @@ namespace Assignment3.Tests
         /// </summary>
         /// <param name="users">List of users</param>
         /// <param name="fileName"></param>
-        public static void SerializeUsers(ILinkedListADT users, string fileName)
+        public static void SerializeUsers(SLL<User> users, string fileName)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(List<User>));
-            using (FileStream stream = File.Create(fileName))
+            // Convert the linked list to a List<User> for easier serialization
+            var userList = new List<User>();
+            var currentNode = users.Head;
+
+            while (currentNode != null)
             {
-                serializer.WriteObject(stream, users);
+                userList.Add(currentNode.Data);
+                currentNode = currentNode.Next;
             }
+
+            JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(userList, options);
+
+            Debug.WriteLine("Serialized JSON: " + jsonString);
+            File.WriteAllText(fileName, jsonString);
         }
 
         /// <summary>
@@ -31,13 +35,25 @@ namespace Assignment3.Tests
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns>List of users</returns>
-        public static ILinkedListADT DeserializeUsers(string fileName)
+        public static SLL<User> DeserializeUsers(string fileName)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(List<User>));
-            using (FileStream stream = File.OpenRead(fileName))
+            string jsonData = File.ReadAllText(fileName);
+            Debug.WriteLine("JSON Data: " + jsonData);
+
+            // Deserialize into a List<User>
+            var userList = JsonSerializer.Deserialize<List<User>>(jsonData);
+
+            // Convert the List<User> back into an SLL<User>
+            var users = new SLL<User>();
+            if (userList != null)
             {
-                return (ILinkedListADT)serializer.ReadObject(stream);
+                foreach (var user in userList)
+                {
+                    users.AddLast(user);
+                }
             }
+
+            return users;
         }
     }
 }

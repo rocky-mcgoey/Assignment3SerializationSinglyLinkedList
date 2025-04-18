@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment3
 {
+    [Serializable]
     public class User : IEquatable<User>
     {
         public int Id { get; private set; }
@@ -55,7 +53,7 @@ namespace Assignment3
         public override bool Equals(Object other)
         {
             if (!(other is User otherUser))
-			    return false;
+                return false;
 
             return Id == otherUser.Id && Name.Equals(otherUser.Name) && Email.Equals(otherUser.Email);
         }

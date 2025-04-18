@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment3.Utility
 {
@@ -36,7 +32,7 @@ namespace Assignment3.Utility
         /// </summary>
         /// <param name="value">Value that element is to contain.</param>
         /// <param name="index">Index to add new element at.</param>
-        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or past the size of the list.</exception>
+        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or past the Count of the list.</exception>
         void Add(User value, int index);
 
         /// <summary>
@@ -44,14 +40,14 @@ namespace Assignment3.Utility
         /// </summary>
         /// <param name="value">Value to replace.</param>
         /// <param name="index">Index of element to replace.</param>
-        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or larger than size - 1 of list.</exception>
+        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or larger than Count - 1 of list.</exception>
         void Replace(User value, int index);
 
         /// <summary>
         /// Gets the number of elements in the list.
         /// </summary>
-        /// <returns>Size of list (0 meaning empty)</returns>
-        int Count();
+        /// <returns>Count of list (0 meaning empty)</returns>
+        int GetCount();
 
         /// <summary>
         /// Removes first element from list
@@ -66,10 +62,10 @@ namespace Assignment3.Utility
         void RemoveLast();
 
         /// <summary>
-        /// Removes element at index from list, reducing the size.
+        /// Removes element at index from list, reducing the Count.
         /// </summary>
         /// <param name="index">Index of element to remove.</param>
-        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or larger than size - 1 of list.</exception>
+        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or larger than Count - 1 of list.</exception>
         void Remove(int index);
 
         /// <summary>
@@ -77,7 +73,7 @@ namespace Assignment3.Utility
         /// </summary>
         /// <param name="index">Index of element to get.</param>
         /// <returns>Value of node at index</returns>
-        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or larger than size - 1 of list.</exception>
+        /// <exception cref="IndexOutOfRangeException">Thrown if index is negative or larger than Count - 1 of list.</exception>
         User GetValue(int index);
 
         /// <summary>

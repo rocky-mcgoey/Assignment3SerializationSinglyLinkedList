@@ -1,12 +1,14 @@
-using Assignment3;
+using System.Diagnostics;
 using Assignment3.Utility;
 
 namespace Assignment3.Tests
 {
     public class SerializationTests
     {
-        private ILinkedListADT users;
-        private readonly string testFileName = "test_users.bin";
+        private SLL<User> users;
+        //private ILinkedListADT users;
+        //private readonly string testFileName = "test_users.bin";
+        private readonly string testFileName = "test_users.json";
 
         [SetUp]
         public void Setup()
@@ -43,11 +45,12 @@ namespace Assignment3.Tests
         public void TestDeSerialization()
         {
             SerializationHelper.SerializeUsers(users, testFileName);
-            ILinkedListADT deserializedUsers = SerializationHelper.DeserializeUsers(testFileName);
-            
-            Assert.IsTrue(users.Count() == deserializedUsers.Count());
-            
-            for (int i = 0; i < users.Count(); i++)
+            Debug.WriteLine("USERS" + users);
+            SLL<User> deserializedUsers = SerializationHelper.DeserializeUsers(testFileName);
+            Debug.WriteLine("DESERIALIKJEFHKJFKJERJKLFGBJMER" + deserializedUsers);
+            Assert.IsTrue(users.GetCount() == deserializedUsers.GetCount());
+
+            for (int i = 0; i < users.GetCount(); i++)
             {
                 User expected = users.GetValue(i);
                 User actual = deserializedUsers.GetValue(i);
